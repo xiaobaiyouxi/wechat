@@ -11,11 +11,11 @@ import (
 	"github.com/silenceper/wechat/menu"
 	"github.com/silenceper/wechat/miniprogram"
 	"github.com/silenceper/wechat/oauth"
-	"github.com/silenceper/wechat/pay"
 	"github.com/silenceper/wechat/qr"
 	"github.com/silenceper/wechat/server"
 	"github.com/silenceper/wechat/template"
 	"github.com/silenceper/wechat/user"
+	"github.com/xiaobaiyouxi/wechat/pay"
 )
 
 // Wechat struct

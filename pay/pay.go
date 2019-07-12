@@ -27,6 +27,7 @@ type Params struct {
 	OutTradeNo string
 	OpenID     string
 	TradeType  string
+	Attach     string
 }
 
 // Config 是传出用于 jsdk 用的参数
@@ -93,16 +94,19 @@ func (pcf *Pay) PrePayOrder(p *Params) (payOrder PreOrder, err error) {
 	param["appid"] = pcf.AppID
 	param["body"] = p.Body
 	param["mch_id"] = pcf.PayMchID
-	param["nonce_str"] =nonceStr
-	param["notify_url"] =pcf.PayNotifyURL
-	param["out_trade_no"] =p.OutTradeNo
-	param["spbill_create_ip"] =p.CreateIP
-	param["total_fee"] =p.TotalFee
-	param["trade_type"] =p.TradeType
+	param["nonce_str"] = nonceStr
+	param["notify_url"] = pcf.PayNotifyURL
+	param["out_trade_no"] = p.OutTradeNo
+	param["spbill_create_ip"] = p.CreateIP
+	param["total_fee"] = p.TotalFee
+	param["trade_type"] = p.TradeType
 	param["openid"] = p.OpenID
+	if p.Attach != "" {
+		param["attach"] = p.Attach
+	}
 
-	bizKey := "&key="+pcf.PayKey
-	str := orderParam(param,bizKey)
+	bizKey := "&key=" + pcf.PayKey
+	str := orderParam(param, bizKey)
 	sign := util.MD5Sum(str)
 	request := payRequest{
 		AppID:          pcf.AppID,
@@ -116,6 +120,7 @@ func (pcf *Pay) PrePayOrder(p *Params) (payOrder PreOrder, err error) {
 		NotifyURL:      pcf.PayNotifyURL,
 		TradeType:      p.TradeType,
 		OpenID:         p.OpenID,
+		Attach:         p.Attach,
 	}
 	rawRet, err := util.PostXML(payGateway, request)
 	if err != nil {
